@@ -1,8 +1,8 @@
-import request from 'supertest'
-import app from '../server'
-import mongoose from 'mongoose'
-import Post from '../models/post_model'
-import User from '../models/user_model'
+import request from 'supertest';
+import app from '../server';
+import mongoose from 'mongoose';
+import Post from '../models/post_model';
+import User from '../models/user_model';
 
 const newPostMessage = 'This is the new test post message'
 let newPostSender = ''
@@ -14,12 +14,12 @@ const userPassword = "12345"
 let accessToken = ''
 
 beforeAll(async ()=>{
-    await Post.remove()
-    await User.remove()
+    await Post.remove();
+    await User.remove();
     const res = await request(app).post('/auth/register').send({
         "email": userEmail,
         "password": userPassword 
-    })
+    });
     newPostSender = res.body._id
 })
 
@@ -27,7 +27,7 @@ async function loginUser() {
     const response = await request(app).post('/auth/login').send({
         "email": userEmail,
         "password": userPassword 
-    })
+    });
     accessToken = response.body.accessToken
 }
 
