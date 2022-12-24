@@ -2,7 +2,7 @@
 
 import express from 'express'
 const router = express.Router()
-import auth from '../controllers/auth.js'
+import auth from '../controllers/auth'
 
 /**
 * @swagger

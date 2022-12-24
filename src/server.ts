@@ -22,10 +22,10 @@ db.once('open', () => { console.log('connected to mongo DB') });
 
 app.use('/public', express.static('public'));
 
-import authRouter from './routes/auth_route.js';
+import authRouter from './routes/auth_route';
 app.use('/auth', authRouter);
 
-import postRouter from './routes/post_route.js';
+import postRouter from './routes/post_route';
 app.use('/post', postRouter);
 
 import swaggerUI from "swagger-ui-express";
