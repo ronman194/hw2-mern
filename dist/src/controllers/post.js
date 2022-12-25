@@ -12,6 +12,8 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 const post_model_1 = __importDefault(require("../models/post_model"));
+const Res_1 = __importDefault(require("../common/Res"));
+const Err_1 = __importDefault(require("../common/Err"));
 const getAllPostsEvent = () => __awaiter(void 0, void 0, void 0, function* () {
     console.log("");
     try {
@@ -47,20 +49,30 @@ const getPostById = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.status(400).send({ 'error': "fail to get posts from db" });
     }
 });
-const addNewPost = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const addNewPost = (req) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(req.body);
     const post = new post_model_1.default({
         message: req.body.message,
         sender: req.body.userId //extract the user id from the auth 
     });
+    if (post.message == undefined || post.message == null) {
+        post.message = req.body;
+        post.sender = req.userId;
+        try {
+            const newPost = yield post.save();
+            console.log("Save Succesful id: " + newPost._id);
+            return new Res_1.default(newPost, req.userId, null);
+        }
+        catch (err) {
+            return new Res_1.default(null, req.userId, new Err_1.default(400, err.message));
+        }
+    }
     try {
         const newPost = yield post.save();
-        console.log("save post in db");
-        res.status(200).send(newPost);
+        return new Res_1.default(newPost, req.body.userId, null);
     }
     catch (err) {
-        console.log("fail to save post in db");
-        res.status(400).send({ 'error': 'fail adding new post to db' });
+        return new Res_1.default(null, req.body.userId, new Err_1.default(400, err.message));
     }
 });
 const putPostById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {

@@ -141,16 +141,17 @@ const logout = async (req:Request ,res:Response)=>{
     }
 }
 
-const authenticateMiddleware = async (req:Request ,res:Response, next: NextFunction)=>{
-    const token = getTokenFromRequest(req)
-    if (token == null) return sendError(res,'authentication missing')
+const authenticateMiddleware = async (req ,res, next:NextFunction)=>{
+    const token = getTokenFromRequest(req);
+    if (token == null) return sendError(res,'authentication missing');
     try{
-        const user = <TokenInfo>jwt.verify(token,process.env.ACCESS_TOKEN_SECRET)
-        req.body.userId = user.id
-        console.log("token user: " + user)
-        return next()
+        const user = <TokenInfo>jwt.verify(token,process.env.ACCESS_TOKEN_SECRET);
+        console.log(user);
+        req.body.userId = user.id;
+        console.log("token user: " + user);
+        return next();
     }catch(err){
-        return sendError(res,'fail validating token')
+        return sendError(res,'fail validating token');
     }
 
 }

@@ -9,6 +9,9 @@ import express from 'express';
 const router = express.Router();
 import post from '../controllers/post';
 import auth from '../controllers/auth';
+import Req from '../common/Req';
+import Res from '../common/Res';
+import Err from '../common/Err';
 
 /**
 * @swagger
@@ -56,7 +59,7 @@ import auth from '../controllers/auth';
  *                  $ref: '#/components/schemas/Post'
  *  
  */
-router.get('/',auth.authenticateMiddleware,post.getAllPosts)
+router.get('/', auth.authenticateMiddleware, post.getAllPosts)
 
 /**
  * @swagger
@@ -82,7 +85,7 @@ router.get('/',auth.authenticateMiddleware,post.getAllPosts)
  *               $ref: '#/components/schemas/Post'
  *  
  */
-router.get('/:id',auth.authenticateMiddleware,post.getPostById)
+router.get('/:id', auth.authenticateMiddleware, post.getPostById)
 
 /**
  * @swagger
@@ -107,7 +110,18 @@ router.get('/:id',auth.authenticateMiddleware,post.getPostById)
  *               $ref: '#/components/schemas/Post'
  *  
  */
-router.post('/',auth.authenticateMiddleware,post.addNewPost)
+router.post('/', auth.authenticateMiddleware, async (req, res) => {
+    try {
+        const response:Res = await post.addNewPost(Req.fromRestRequest(req));
+        response.sendRestResponse(res);
+    } catch (err) {
+        res.status(400).send({
+            'status': 'fail',
+            'message': err.message
+        });
+    }
+});
+
 
 
 /**
@@ -140,6 +154,6 @@ router.post('/',auth.authenticateMiddleware,post.addNewPost)
  *               $ref: '#/components/schemas/Post'
  *  
  */
-router.put('/:id',auth.authenticateMiddleware,post.putPostById)
+router.put('/:id', auth.authenticateMiddleware, post.putPostById)
 
 export = router

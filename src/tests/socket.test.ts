@@ -53,7 +53,7 @@ const connectUser = async (userEmail, userPassword) => {
 }
 
 describe("my awesome project", () => {
-    jest.setTimeout(15000);
+    jest.setTimeout(25000);
 
     beforeAll(async () => {
         await Post.remove();
@@ -101,4 +101,16 @@ describe("my awesome project", () => {
         })
         client1.socket.emit("chat:send_message", { 'to': client2.id, 'message': message });
     });
+
+    test("postAdd", (done) => {
+        const message = "hi... post add message";
+        client1.socket.once('post:add.response', (args) => {
+            console.log("ARGSSSSSSSSSS" + args.message);
+            expect(args.message).toEqual(message);
+            expect(args.sender).toEqual(client1.id);
+            done();
+        })
+        console.log(client1.socket);
+        client1.socket.emit('post:add_new', { 'message': message, 'userId': client1.id, 'socketId': client1.socket.id });
+    })
 });

@@ -1,6 +1,8 @@
 
 import Post from '../models/post_model';
 import { Request, Response } from 'express';
+import Res from '../common/Res';
+import Err from '../common/Err';
 
 const getAllPostsEvent = async () => {
     console.log("")
@@ -38,22 +40,33 @@ const getPostById = async (req: Request, res: Response) => {
 }
 
 
-const addNewPost = async (req: Request, res: Response) => {
-    console.log(req.body)
+const addNewPost = async (req) => {
+    console.log(req.body);
 
     const post = new Post({
         message: req.body.message,
         sender: req.body.userId     //extract the user id from the auth 
-    })
+    });
+
+    if (post.message == undefined || post.message == null) {
+        post.message = req.body;
+        post.sender = req.userId;
+        try {
+            const newPost = await post.save();
+            console.log("Save Succesful id: "+ newPost._id);
+            return new Res(newPost, req.userId, null);
+        } catch (err) {
+            return new Res(null, req.userId, new Err(400, err.message));
+        }
+    }
 
     try {
-        const newPost = await post.save()
-        console.log("save post in db")
-        res.status(200).send(newPost)
+        const newPost = await post.save();
+        return new Res(newPost, req.body.userId, null);
     } catch (err) {
-        console.log("fail to save post in db")
-        res.status(400).send({ 'error': 'fail adding new post to db' })
+        return new Res(null, req.body.userId, new Err(400, err.message));
     }
+
 }
 
 

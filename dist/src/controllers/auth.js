@@ -138,6 +138,7 @@ const authenticateMiddleware = (req, res, next) => __awaiter(void 0, void 0, voi
         return sendError(res, 'authentication missing');
     try {
         const user = jsonwebtoken_1.default.verify(token, process.env.ACCESS_TOKEN_SECRET);
+        console.log(user);
         req.body.userId = user.id;
         console.log("token user: " + user);
         return next();
