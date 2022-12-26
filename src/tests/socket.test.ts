@@ -85,24 +85,30 @@ describe("my awesome project", () => {
     });
 
     test("postAdd", (done) => {
+        client2.socket.once('post:add.response', (args) => {
+            expect(args.message).toEqual(message);
+            expect(args.sender).toEqual(client2.id);
+            postId = args._id;
+            done();
+        })
+        client2.socket.emit('post:add_new', { 'message': message, 'userId': client2.id, 'socketId': client2.socket.id });
+    })
+    test("postAdd", (done) => {
         client1.socket.once('post:add.response', (args) => {
-            console.log("ARGSSSSSSSSSS" + args);
             expect(args.message).toEqual(message);
             expect(args.sender).toEqual(client1.id);
             postId = args._id;
             done();
         })
-        console.log(client1.socket);
         client1.socket.emit('post:add_new', { 'message': message, 'userId': client1.id, 'socketId': client1.socket.id });
     })
 
     test("Post get all test", (done) => {
         client1.socket.once('post:get.response', (arg) => {
-            console.log("on any " + arg);
             expect(arg[0].message).toBe(message);
+            expect(arg[0].sender).toBe(client2.id);
             done();
         });
-        console.log(" test post get all");
         client1.socket.emit("post:get", {});
     });
 
@@ -110,9 +116,9 @@ describe("my awesome project", () => {
         client1.socket.once('post:get:sender.response', (arg) => {
             console.log("on any " + arg);
             expect(arg[0].message).toBe(message);
+            expect(arg[0].sender).toBe(client1.id);
             done();
         });
-        console.log(" test get posts by sender");
         client1.socket.emit("post:get:sender", {'userId': client1.id});
     });
 
@@ -130,13 +136,11 @@ describe("my awesome project", () => {
 
     test("get post by id", (done) => {
         client1.socket.once('post:get:id.response', (args) => {
-            console.log("ARGSSSSSSSSSS" + args.message);
             expect(args.sender).toEqual(client1.id);
             expect(args._id).toEqual(postId);
             expect(args.message).toEqual(message);
             done();
         })
-        console.log(client1.socket);
         client1.socket.emit('post:get:id', { 'postId': postId, 'userId': client1.id });
     });
 
@@ -146,19 +150,16 @@ describe("my awesome project", () => {
             expect(args.code).toEqual(400);
             done();
         })
-        console.log(client1.socket);
         client1.socket.emit('post:get:id', { 'postId': 123456, 'userId': client1.id });
     });
 
     test("update post by id", (done) => {
         client1.socket.once('post:put.response', (args) => {
-            console.log("ARGSSSSSSSSSS" + args.message);
             expect(args.sender).toEqual(client1.id);
             expect(args._id).toEqual(postId);
             expect(args.message).toEqual(updateMessage);
             done();
         })
-        console.log(client1.socket);
         client1.socket.emit('post:put', { 'postId': postId, 'message': updateMessage, 'userId': client1.id });
     });
 
@@ -168,7 +169,6 @@ describe("my awesome project", () => {
             expect(args.code).toEqual(400);
             done();
         })
-        console.log(client1.socket);
         client1.socket.emit('post:put', { 'postId': 123456, 'message': updateMessage, 'userId': client1.id });
     });
 
