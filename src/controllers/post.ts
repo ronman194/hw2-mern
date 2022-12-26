@@ -72,13 +72,18 @@ const addNewPost = async (req) => {
 }
 
 
-const putPostById = async (req: Request, res: Response) => {
+const putPostById = async (req) => {
     try {
-        const post = await Post.findByIdAndUpdate(req.params.id, req.body, { new: true })
-        res.status(200).send(post)
+        const updateMessage = req.body.message;
+        let postId = req.params.id;
+        if (postId == null || postId == undefined){
+            postId = req.params;
+        }
+        const post = await Post.findByIdAndUpdate(postId, {'message':updateMessage}, { new: true })
+        return new Res(post, req.body.userId, null);
     } catch (err) {
         console.log("fail to update post in db")
-        res.status(400).send({ 'error': 'fail adding new post to db' })
+        return new Res(new Err(400, err.message), req.body.userId, new Err(400, err.message));
     }
 }
 

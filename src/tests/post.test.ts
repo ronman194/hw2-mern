@@ -87,13 +87,13 @@ describe("Posts Tests", ()=>{
             "sender": newPostSender
         })
         expect(response.statusCode).toEqual(200)
-        expect(response.body.message).toEqual(newPostMessageUpdated)
-        expect(response.body.sender).toEqual(newPostSender)
+        expect(response.body.post.message).toEqual(newPostMessageUpdated)
+        expect(response.body.post.sender).toEqual(newPostSender)
 
         response = await request(app).get('/post/' + newPostId).set('Authorization', 'JWT ' + accessToken)
         expect(response.statusCode).toEqual(200)
-        expect(response.body.message).toEqual(newPostMessageUpdated)
-        expect(response.body.sender).toEqual(newPostSender)
+        expect(response.body.post.message).toEqual(newPostMessageUpdated)
+        expect(response.body.post.sender).toEqual(newPostSender)
 
         response = await request(app).put('/post/12345').set('Authorization', 'JWT ' + accessToken)
         .send({
@@ -107,7 +107,7 @@ describe("Posts Tests", ()=>{
             "message": newPostMessageUpdated,
         })
         expect(response.statusCode).toEqual(200)
-        expect(response.body.message).toEqual(newPostMessageUpdated)
-        expect(response.body.sender).toEqual(newPostSender)
+        expect(response.body.post.message).toEqual(newPostMessageUpdated)
+        expect(response.body.post.sender).toEqual(newPostSender)
     })
 })

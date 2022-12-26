@@ -78,14 +78,19 @@ const addNewPost = (req) => __awaiter(void 0, void 0, void 0, function* () {
         return new Res_1.default(null, req.body.userId, new Err_1.default(400, err.message));
     }
 });
-const putPostById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const putPostById = (req) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const post = yield post_model_1.default.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        res.status(200).send(post);
+        const updateMessage = req.body.message;
+        let postId = req.params.id;
+        if (postId == null || postId == undefined) {
+            postId = req.params;
+        }
+        const post = yield post_model_1.default.findByIdAndUpdate(postId, { 'message': updateMessage }, { new: true });
+        return new Res_1.default(post, req.body.userId, null);
     }
     catch (err) {
         console.log("fail to update post in db");
-        res.status(400).send({ 'error': 'fail adding new post to db' });
+        return new Res_1.default(new Err_1.default(400, err.message), req.body.userId, new Err_1.default(400, err.message));
     }
 });
 module.exports = { getAllPosts, addNewPost, getPostById, putPostById, getAllPostsEvent };

@@ -15,6 +15,7 @@ const userPassword2 = "12345";
 
 let postId = '';
 const message = "hi... post add message";
+const updateMessage = "This is a new message";
 
 
 type Client = {
@@ -128,7 +129,8 @@ describe("my awesome project", () => {
         })
         console.log(client1.socket);
         client1.socket.emit('post:get:id', { 'postId': postId, 'userId': client1.id });
-    })
+    });
+
     test("get post by wrong id", (done) => {
         client1.socket.once('post:get:id.response', (args) => {
             console.log(args.message);
@@ -137,5 +139,28 @@ describe("my awesome project", () => {
         })
         console.log(client1.socket);
         client1.socket.emit('post:get:id', { 'postId': 123456, 'userId': client1.id });
-    })
+    });
+
+    test("update post by id", (done) => {
+        client1.socket.once('post:put.response', (args) => {
+            console.log("ARGSSSSSSSSSS" + args.message);
+            expect(args.sender).toEqual(client1.id);
+            expect(args._id).toEqual(postId);
+            expect(args.message).toEqual(updateMessage);
+            done();
+        })
+        console.log(client1.socket);
+        client1.socket.emit('post:put', { 'postId': postId,'message':updateMessage, 'userId': client1.id });
+    });
+
+    test("update post by wrong id", (done) => {
+        client1.socket.once('post:put.response', (args) => {
+            console.log(args.message);
+            expect(args.code).toEqual(400);
+            done();
+        })
+        console.log(client1.socket);
+        client1.socket.emit('post:put', { 'postId': 123456,'message':updateMessage, 'userId': client1.id });
+    });
+
 });

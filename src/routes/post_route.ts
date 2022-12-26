@@ -169,6 +169,21 @@ router.post('/', auth.authenticateMiddleware, async (req, res) => {
  *               $ref: '#/components/schemas/Post'
  *  
  */
-router.put('/:id', auth.authenticateMiddleware, post.putPostById)
+router.put('/:id', auth.authenticateMiddleware, async (req, res) => {
+    try {
+        const response: Res = await post.putPostById(Req.fromRestRequest(req));
+        if (response.err == null) {
+            response.sendRestResponse(res);
+        }
+        if (response.err.code === 400) {
+            return res.status(400).send({
+                'status': 'fail',
+                'message': response.err.message
+            });
+        }
+    } catch (err) {
+        console.log("ERR")
+    }
+});
 
 export = router

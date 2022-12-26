@@ -23,6 +23,16 @@ export = (io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>,
             socket.emit('post:get:id.response', { 'status': 'fail' });
         }
     }
+
+    const putPostById = async (payload) => {
+        console.log("update post with id: %s", payload.postId);
+        try {
+            const response:Res = await postController.putPostById(new Req(payload, payload.userId,payload.postId));
+            socket.emit('post:put.response', response.body);
+        } catch (err) {
+            socket.emit('post:put.response', { 'status': 'fail' });
+        }
+    }
     
     const addNewPost = async (payload) => {
         console.log("postAdd with socketId: %s", payload.socketId);
@@ -39,4 +49,5 @@ export = (io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>,
     socket.on("post:get_all", getAllPosts);
     socket.on("post:get:id", getPostById);
     socket.on("post:add_new", addNewPost);
+    socket.on("post:put", putPostById);
 }
