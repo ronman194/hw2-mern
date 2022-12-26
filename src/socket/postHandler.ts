@@ -8,10 +8,23 @@ import Err from '../common/Err';
 export = (io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>,
     socket: Socket<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>) => {
 
-    const getAllPosts = async () => {
-        console.log("getAllPosts handler");
-        const res = await postController.getAllPostsEvent();
-        socket.emit('post:get_all', res);
+    const getAllPosts = async (payload) => {
+        try {
+            const response:Res = await postController.getAllPosts(new Req({}, payload.userId,null, {'sender':null}));
+            socket.emit('post:get.response', response.body);
+        } catch (err) {
+            socket.emit('post:get.response', { 'status': 'fail' });
+        }
+    }
+
+    const getPostsBySender = async (payload) => {
+        console.log("SENDER: " + payload.userId)
+        try {
+            const response:Res = await postController.getAllPosts(new Req({}, payload.userId,null, {'sender':payload.userId}));
+            socket.emit('post:get:sender.response', response.body);
+        } catch (err) {
+            socket.emit('post:get:sender.response', { 'status': 'fail' });
+        }
     }
 
     const getPostById = async (payload) => {
@@ -46,7 +59,8 @@ export = (io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>,
     }
 
     console.log('register echo handlers');
-    socket.on("post:get_all", getAllPosts);
+    socket.on("post:get", getAllPosts);
+    socket.on("post:get:sender", getPostsBySender);
     socket.on("post:get:id", getPostById);
     socket.on("post:add_new", addNewPost);
     socket.on("post:put", putPostById);

@@ -14,17 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 const post_model_1 = __importDefault(require("../models/post_model"));
 const Res_1 = __importDefault(require("../common/Res"));
 const Err_1 = __importDefault(require("../common/Err"));
-const getAllPostsEvent = () => __awaiter(void 0, void 0, void 0, function* () {
-    console.log("");
-    try {
-        const posts = yield post_model_1.default.find();
-        return { status: 'OK', data: posts };
-    }
-    catch (err) {
-        return { status: 'FAIL', data: "" };
-    }
-});
-const getAllPosts = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+const getAllPosts = (req) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         let posts = {};
         if (req.query.sender == null) {
@@ -33,10 +23,10 @@ const getAllPosts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         else {
             posts = yield post_model_1.default.find({ 'sender': req.query.sender });
         }
-        res.status(200).send(posts);
+        return new Res_1.default(posts, req.body.userId, null);
     }
     catch (err) {
-        res.status(400).send({ 'error': "fail to get posts from db" });
+        return new Res_1.default(new Err_1.default(400, err.message), req.body.userId, new Err_1.default(400, err.message));
     }
 });
 const getPostById = (req) => __awaiter(void 0, void 0, void 0, function* () {
@@ -93,5 +83,5 @@ const putPostById = (req) => __awaiter(void 0, void 0, void 0, function* () {
         return new Res_1.default(new Err_1.default(400, err.message), req.body.userId, new Err_1.default(400, err.message));
     }
 });
-module.exports = { getAllPosts, addNewPost, getPostById, putPostById, getAllPostsEvent };
+module.exports = { getAllPosts, addNewPost, getPostById, putPostById };
 //# sourceMappingURL=post.js.map

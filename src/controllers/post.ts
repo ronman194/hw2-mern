@@ -4,17 +4,8 @@ import { Request, Response } from 'express';
 import Res from '../common/Res';
 import Err from '../common/Err';
 
-const getAllPostsEvent = async () => {
-    console.log("")
-    try {
-        const posts = await Post.find()
-        return { status: 'OK', data: posts }
-    } catch (err) {
-        return { status: 'FAIL', data: "" }
-    }
-}
 
-const getAllPosts = async (req: Request, res: Response) => {
+const getAllPosts = async (req) => {
     try {
         let posts = {}
         if (req.query.sender == null) {
@@ -22,9 +13,9 @@ const getAllPosts = async (req: Request, res: Response) => {
         } else {
             posts = await Post.find({ 'sender': req.query.sender })
         }
-        res.status(200).send(posts)
+        return new Res(posts, req.body.userId, null);
     } catch (err) {
-        res.status(400).send({ 'error': "fail to get posts from db" })
+        return new Res(new Err(400, err.message), req.body.userId, new Err(400, err.message));
     }
 }
 
@@ -88,4 +79,4 @@ const putPostById = async (req) => {
 }
 
 
-export = { getAllPosts, addNewPost, getPostById, putPostById, getAllPostsEvent }
+export = { getAllPosts, addNewPost, getPostById, putPostById }

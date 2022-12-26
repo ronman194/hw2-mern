@@ -59,7 +59,22 @@ import Err from '../common/Err';
  *                  $ref: '#/components/schemas/Post'
  *  
  */
-router.get('/', auth.authenticateMiddleware, post.getAllPosts)
+router.get('/', auth.authenticateMiddleware, async (req, res) => {
+    try {
+        const response: Res = await post.getAllPosts(Req.fromRestRequest(req));
+        if (response.err == null) {
+            response.sendRestResponse(res);
+        }
+        if (response.err.code === 400) {
+            return res.status(400).send({
+                'status': 'fail',
+                'message': response.err.message
+            });
+        }
+    } catch (err) {
+        console.log("ERR")
+    }
+});
 
 /**
  * @swagger

@@ -57,8 +57,8 @@ describe("Posts Tests", ()=>{
     test("get all posts",async ()=>{
         const response = await request(app).get('/post').set('Authorization', 'JWT ' + accessToken)
         expect(response.statusCode).toEqual(200)
-        expect(response.body[0].message).toEqual(newPostMessage)
-        expect(response.body[0].sender).toEqual(newPostSender)
+        expect(response.body.post[0].message).toEqual(newPostMessage)
+        expect(response.body.post[0].sender).toEqual(newPostSender)
     })
 
     test("get post by id",async ()=>{
@@ -76,8 +76,8 @@ describe("Posts Tests", ()=>{
     test("get post by sender",async ()=>{
         const response = await request(app).get('/post?sender=' + newPostSender).set('Authorization', 'JWT ' + accessToken)
         expect(response.statusCode).toEqual(200)
-        expect(response.body[0].message).toEqual(newPostMessage)
-        expect(response.body[0].sender).toEqual(newPostSender)
+        expect(response.body.post[0].message).toEqual(newPostMessage)
+        expect(response.body.post[0].sender).toEqual(newPostSender)
     })
 
     test("update post by ID",async ()=>{
