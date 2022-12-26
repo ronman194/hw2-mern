@@ -39,14 +39,17 @@ const getAllPosts = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
         res.status(400).send({ 'error': "fail to get posts from db" });
     }
 });
-const getPostById = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    console.log(req.params.id);
+const getPostById = (req) => __awaiter(void 0, void 0, void 0, function* () {
+    let param = req.params.id;
+    if (param == null || undefined) {
+        param = req.params;
+    }
     try {
-        const posts = yield post_model_1.default.findById(req.params.id);
-        res.status(200).send(posts);
+        const posts = yield post_model_1.default.findById(param);
+        return new Res_1.default(posts, req.body.userId, null);
     }
     catch (err) {
-        res.status(400).send({ 'error': "fail to get posts from db" });
+        return new Res_1.default(new Err_1.default(400, err.message), req.body.userId, new Err_1.default(400, err.message));
     }
 });
 const addNewPost = (req) => __awaiter(void 0, void 0, void 0, function* () {

@@ -5,6 +5,7 @@ class Res {
     constructor(body, userId, err) {
         this.body = body;
         this.userId = userId;
+        this.err = err;
     }
     sendRestResponse(res) {
         if (this.err == null) {

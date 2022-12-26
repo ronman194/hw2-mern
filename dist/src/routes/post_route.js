@@ -92,7 +92,23 @@ router.get('/', auth_1.default.authenticateMiddleware, post_1.default.getAllPost
  *               $ref: '#/components/schemas/Post'
  *
  */
-router.get('/:id', auth_1.default.authenticateMiddleware, post_1.default.getPostById);
+router.get('/:id', auth_1.default.authenticateMiddleware, (req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    try {
+        const response = yield post_1.default.getPostById(Req_1.default.fromRestRequest(req));
+        if (response.err == null) {
+            response.sendRestResponse(res);
+        }
+        if (response.err.code === 400) {
+            return res.status(400).send({
+                'status': 'fail',
+                'message': response.err.message
+            });
+        }
+    }
+    catch (err) {
+        console.log("ERR");
+    }
+}));
 /**
  * @swagger
  * /post:

@@ -13,6 +13,10 @@ const userPassword = "12345";
 const userEmail2 = "user2@gmail.com";
 const userPassword2 = "12345";
 
+let postId = '';
+const message = "hi... post add message";
+
+
 type Client = {
     socket: Socket<DefaultEventsMap, DefaultEventsMap>,
     accessToken: string,
@@ -103,14 +107,35 @@ describe("my awesome project", () => {
     });
 
     test("postAdd", (done) => {
-        const message = "hi... post add message";
         client1.socket.once('post:add.response', (args) => {
-            console.log("ARGSSSSSSSSSS" + args.message);
+            console.log("ARGSSSSSSSSSS" + args);
             expect(args.message).toEqual(message);
             expect(args.sender).toEqual(client1.id);
+            postId = args._id;
             done();
         })
         console.log(client1.socket);
         client1.socket.emit('post:add_new', { 'message': message, 'userId': client1.id, 'socketId': client1.socket.id });
+    })
+
+    test("get post by id", (done) => {
+        client1.socket.once('post:get:id.response', (args) => {
+            console.log("ARGSSSSSSSSSS" + args.message);
+            expect(args.sender).toEqual(client1.id);
+            expect(args._id).toEqual(postId);
+            expect(args.message).toEqual(message);
+            done();
+        })
+        console.log(client1.socket);
+        client1.socket.emit('post:get:id', { 'postId': postId, 'userId': client1.id });
+    })
+    test("get post by wrong id", (done) => {
+        client1.socket.once('post:get:id.response', (args) => {
+            console.log(args.message);
+            expect(args.code).toEqual(400);
+            done();
+        })
+        console.log(client1.socket);
+        client1.socket.emit('post:get:id', { 'postId': 123456, 'userId': client1.id });
     })
 });

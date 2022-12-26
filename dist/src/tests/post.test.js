@@ -71,8 +71,8 @@ describe("Posts Tests", () => {
     test("get post by id", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(server_1.default).get('/post/' + newPostId).set('Authorization', 'JWT ' + accessToken);
         expect(response.statusCode).toEqual(200);
-        expect(response.body.message).toEqual(newPostMessage);
-        expect(response.body.sender).toEqual(newPostSender);
+        expect(response.body.post.message).toEqual(newPostMessage);
+        expect(response.body.post.sender).toEqual(newPostSender);
     }));
     test("get post by wrong id fails", () => __awaiter(void 0, void 0, void 0, function* () {
         const response = yield (0, supertest_1.default)(server_1.default).get('/post/12345').set('Authorization', 'JWT ' + accessToken);

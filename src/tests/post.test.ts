@@ -64,8 +64,8 @@ describe("Posts Tests", ()=>{
     test("get post by id",async ()=>{
         const response = await request(app).get('/post/' + newPostId).set('Authorization', 'JWT ' + accessToken)
         expect(response.statusCode).toEqual(200)
-        expect(response.body.message).toEqual(newPostMessage)
-        expect(response.body.sender).toEqual(newPostSender)
+        expect(response.body.post.message).toEqual(newPostMessage)
+        expect(response.body.post.sender).toEqual(newPostSender)
     })
 
     test("get post by wrong id fails",async ()=>{

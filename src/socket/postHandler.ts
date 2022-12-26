@@ -14,8 +14,14 @@ export = (io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>,
         socket.emit('post:get_all', res);
     }
 
-    const getPostById = (payload) => {
-        socket.emit('echo:echo', payload);
+    const getPostById = async (payload) => {
+        console.log("get post with id: %s", payload.postId);
+        try {
+            const response:Res = await postController.getPostById(new Req(payload.postId, payload.userId,payload.postId));
+            socket.emit('post:get:id.response', response.body);
+        } catch (err) {
+            socket.emit('post:get:id.response', { 'status': 'fail' });
+        }
     }
     
     const addNewPost = async (payload) => {
@@ -31,6 +37,6 @@ export = (io: Server<DefaultEventsMap, DefaultEventsMap, DefaultEventsMap>,
 
     console.log('register echo handlers');
     socket.on("post:get_all", getAllPosts);
-    socket.on("post:get_by_id", getPostById);
+    socket.on("post:get:id", getPostById);
     socket.on("post:add_new", addNewPost);
 }

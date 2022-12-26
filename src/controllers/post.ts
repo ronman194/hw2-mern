@@ -28,14 +28,16 @@ const getAllPosts = async (req: Request, res: Response) => {
     }
 }
 
-const getPostById = async (req: Request, res: Response) => {
-    console.log(req.params.id)
-
+const getPostById = async (req) => {
+    let param = req.params.id;
+    if (param == null || undefined){
+        param = req.params;
+    }
     try {
-        const posts = await Post.findById(req.params.id)
-        res.status(200).send(posts)
+        const posts = await Post.findById(param);
+        return new Res(posts, req.body.userId, null);
     } catch (err) {
-        res.status(400).send({ 'error': "fail to get posts from db" })
+        return new Res(new Err(400, err.message), req.body.userId, new Err(400, err.message));
     }
 }
 
