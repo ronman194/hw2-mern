@@ -6,6 +6,7 @@ import { DefaultEventsMap } from "@socket.io/component-emitter";
 import request from 'supertest';
 import Post from '../models/post_model';
 import User from '../models/user_model';
+import Message from '../models/message_model';
 
 const userEmail = "user1@gmail.com";
 const userPassword = "12345";
@@ -16,6 +17,10 @@ const userPassword2 = "12345";
 let postId = '';
 const message = "hi... post add message";
 const updateMessage = "This is a new message";
+
+const sendMessages = ["hi... test 1", "hi... test 2", "hi... test 3", "hi... test 4",]
+const reciveMessage = ["hi... test 5"];
+
 
 
 type Client = {
@@ -35,7 +40,7 @@ function clientSocketConnect(clientSocket): Promise<string> {
     });
 }
 
-const connectUser = async (userEmail, userPassword) => {
+const connectUser = async (userEmail:string, userPassword:string) => {
     const response1 = await request(server).post('/auth/register').send({
         "email": userEmail,
         "password": userPassword
@@ -63,6 +68,7 @@ describe("my awesome project", () => {
     beforeAll(async () => {
         await Post.remove();
         await User.remove();
+        await Message.remove();
         client1 = await connectUser(userEmail, userPassword);
         client2 = await connectUser(userEmail2, userPassword2);
         console.log("finish beforeAll");
@@ -119,21 +125,73 @@ describe("my awesome project", () => {
             expect(arg[0].sender).toBe(client1.id);
             done();
         });
-        client1.socket.emit("post:get:sender", {'userId': client1.id});
+        client1.socket.emit("post:get:sender", { 'userId': client1.id });
     });
 
-
+    //********************************************************************************************* */
     test("Test chat messages", (done) => {
-        const message = "hi... test 123";
         client2.socket.once('chat:message', (args) => {
             expect(args.to).toBe(client2.id);
-            expect(args.message).toBe(message);
+            expect(args.message).toBe(sendMessages[0]);
             expect(args.from).toBe(client1.id);
             done();
         })
-        client1.socket.emit("chat:send_message", { 'to': client2.id, 'message': message });
+        client1.socket.emit("chat:send_message", { 'to': client2.id, 'message': sendMessages[0] });
+    });
+    test("Test chat messages", (done) => {
+        client2.socket.once('chat:message', (args) => {
+            expect(args.to).toBe(client2.id);
+            expect(args.message).toBe(sendMessages[1]);
+            expect(args.from).toBe(client1.id);
+            done();
+        })
+        client1.socket.emit("chat:send_message", { 'to': client2.id, 'message': sendMessages[1] });
+    });
+    test("Test chat messages", (done) => {
+        client2.socket.once('chat:message', (args) => {
+            expect(args.to).toBe(client2.id);
+            expect(args.message).toBe(sendMessages[2]);
+            expect(args.from).toBe(client1.id);
+            done();
+        })
+        client1.socket.emit("chat:send_message", { 'to': client2.id, 'message': sendMessages[2] });
+    });
+    test("Test chat messages", (done) => {
+        client2.socket.once('chat:message', (args) => {
+            expect(args.to).toBe(client2.id);
+            expect(args.message).toBe(sendMessages[3]);
+            expect(args.from).toBe(client1.id);
+            done();
+        })
+        client1.socket.emit("chat:send_message", { 'to': client2.id, 'message': sendMessages[3] });
+    });
+    test("Test chat messages", (done) => {
+        client1.socket.once('chat:message', (args) => {
+            expect(args.to).toBe(client1.id);
+            expect(args.message).toBe(reciveMessage[0]);
+            expect(args.from).toBe(client2.id);
+            done();
+        })
+        client2.socket.emit("chat:send_message", { 'to': client1.id, 'message': reciveMessage[0] });
+    });
+    test("Test get messages", (done) => {
+        client1.socket.once('chat:get_messages.response', (args) => {
+            for (let i = 0; i < sendMessages.length; i++) {
+                expect(args.sendMessages[i].message).toBe(sendMessages[i]);
+                expect(args.sendMessages[i].sender).toBe(client1.id);
+                expect(args.sendMessages[i].reciver).toBe(client2.id);
+            }
+            for (let i = 0; i < reciveMessage.length; i++) {
+                expect(args.reciveMessages[i].message).toBe(reciveMessage[i]);
+                expect(args.reciveMessages[i].sender).toBe(client2.id);
+                expect(args.reciveMessages[i].reciver).toBe(client1.id);
+            }
+            done();
+        })
+        client1.socket.emit("chat:get_messages", { 'userId': client1.id });
     });
 
+    //********************************************************************************************* */
     test("get post by id", (done) => {
         client1.socket.once('post:get:id.response', (args) => {
             expect(args.sender).toEqual(client1.id);

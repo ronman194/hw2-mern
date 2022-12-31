@@ -4,12 +4,12 @@
   "description": "My first Web App",
   "main": "app.js",
   "scripts": {
-    "test": "tsc && jest --detectOpenHandles --forceExit --runInBand --coverage",
+    "test": "tsc && jest --detectOpenHandles --forceExit --runInBand --coverage ./dist/src/tests",
     "start": "tsc && node dist/src/app.js",
     "lint": "eslint . --ext .ts",
     "devstart": "nodemon ./src/app.ts",
     "testAuth": "tsc && jest --detectOpenHandles --forceExit --runInBand ./dist/src/tests/auth.test.js",
-    "testSocket": "tsc && jest --detectOpenHandles --forceExit --runInBand --coverage ./src/tests/socket.test",
+    "testSocket": "tsc && jest --detectOpenHandles --forceExit --runInBand --coverage ./dist/src/tests/socket.test.js",
     "testPost": "tsc && jest --detectOpenHandles --forceExit --runInBand ./dist/src/tests/post.test.js"
   },
   "author": "Ron Mansharof",

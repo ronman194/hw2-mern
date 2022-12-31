@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1672079363304" clover="3.2.0">
-  <project timestamp="1672079363304" name="All files">
-    <metrics statements="702" coveredstatements="631" conditionals="241" coveredconditionals="190" methods="164" coveredmethods="154" elements="1107" coveredelements="975" complexity="0" loc="702" ncloc="702" packages="12" files="30" classes="30"/>
+<coverage generated="1672498706158" clover="3.2.0">
+  <project timestamp="1672498706158" name="All files">
+    <metrics statements="737" coveredstatements="665" conditionals="266" coveredconditionals="213" methods="179" coveredmethods="168" elements="1182" coveredelements="1046" complexity="0" loc="737" ncloc="737" packages="12" files="32" classes="32"/>
     <package name="dist.src">
       <metrics statements="73" coveredstatements="66" conditionals="40" coveredconditionals="32" methods="19" coveredmethods="17"/>
       <file name="app.js" path="C:\Users\mansh\Desktop\mern my code\mernCourseLectureCode\dist\src\app.js">
@@ -293,7 +293,15 @@
       </file>
     </package>
     <package name="dist.src.models">
-      <metrics statements="10" coveredstatements="10" conditionals="14" coveredconditionals="12" methods="2" coveredmethods="2"/>
+      <metrics statements="15" coveredstatements="15" conditionals="21" coveredconditionals="18" methods="3" coveredmethods="3"/>
+      <file name="message_model.js" path="C:\Users\mansh\Desktop\mern my code\mernCourseLectureCode\dist\src\models\message_model.js">
+        <metrics statements="5" coveredstatements="5" conditionals="7" coveredconditionals="6" methods="1" coveredmethods="1"/>
+        <line num="2" count="1" type="cond" truecount="3" falsecount="0"/>
+        <line num="3" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+      </file>
       <file name="post_model.js" path="C:\Users\mansh\Desktop\mern my code\mernCourseLectureCode\dist\src\models\post_model.js">
         <metrics statements="5" coveredstatements="5" conditionals="7" coveredconditionals="6" methods="1" coveredmethods="1"/>
         <line num="2" count="3" type="cond" truecount="3" falsecount="0"/>
@@ -375,17 +383,35 @@
       </file>
     </package>
     <package name="dist.src.socket">
-      <metrics statements="63" coveredstatements="57" conditionals="18" coveredconditionals="16" methods="24" coveredmethods="21"/>
+      <metrics statements="81" coveredstatements="74" conditionals="36" coveredconditionals="33" methods="35" coveredmethods="31"/>
       <file name="chatHandler.js" path="C:\Users\mansh\Desktop\mern my code\mernCourseLectureCode\dist\src\socket\chatHandler.js">
-        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="2" count="1" type="stmt"/>
-        <line num="3" count="2" type="stmt"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="5" count="1" type="stmt"/>
-        <line num="6" count="1" type="stmt"/>
-        <line num="7" count="1" type="stmt"/>
-        <line num="9" count="2" type="stmt"/>
-        <line num="10" count="2" type="stmt"/>
+        <metrics statements="26" coveredstatements="25" conditionals="18" coveredconditionals="17" methods="13" coveredmethods="12"/>
+        <line num="2" count="1" type="cond" truecount="3" falsecount="0"/>
+        <line num="3" count="7" type="cond" truecount="2" falsecount="0"/>
+        <line num="4" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="5" count="7" type="stmt"/>
+        <line num="6" count="0" type="stmt"/>
+        <line num="7" count="13" type="cond" truecount="2" falsecount="0"/>
+        <line num="8" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="11" count="1" type="cond" truecount="3" falsecount="0"/>
+        <line num="12" count="1" type="cond" truecount="3" falsecount="1"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="5" type="stmt"/>
+        <line num="17" count="5" type="stmt"/>
+        <line num="18" count="5" type="stmt"/>
+        <line num="19" count="5" type="stmt"/>
+        <line num="20" count="5" type="stmt"/>
+        <line num="25" count="5" type="stmt"/>
+        <line num="26" count="5" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="29" count="1" type="stmt"/>
+        <line num="30" count="1" type="stmt"/>
+        <line num="31" count="1" type="stmt"/>
+        <line num="32" count="1" type="stmt"/>
+        <line num="34" count="2" type="stmt"/>
+        <line num="35" count="2" type="stmt"/>
+        <line num="36" count="2" type="stmt"/>
       </file>
       <file name="echoHandler.js" path="C:\Users\mansh\Desktop\mern my code\mernCourseLectureCode\dist\src\socket\echoHandler.js">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="2"/>
@@ -698,7 +724,13 @@
       </file>
     </package>
     <package name="src.models">
-      <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <metrics statements="9" coveredstatements="9" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+      <file name="message_model.ts" path="C:\Users\mansh\Desktop\mern my code\mernCourseLectureCode\src\models\message_model.ts">
+        <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="18" count="1" type="stmt"/>
+      </file>
       <file name="post_model.ts" path="C:\Users\mansh\Desktop\mern my code\mernCourseLectureCode\src\models\post_model.ts">
         <metrics statements="3" coveredstatements="3" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
         <line num="1" count="3" type="stmt"/>
@@ -765,17 +797,26 @@
       </file>
     </package>
     <package name="src.socket">
-      <metrics statements="54" coveredstatements="49" conditionals="0" coveredconditionals="0" methods="16" coveredmethods="15"/>
+      <metrics statements="63" coveredstatements="58" conditionals="0" coveredconditionals="0" methods="19" coveredmethods="18"/>
       <file name="chatHandler.ts" path="C:\Users\mansh\Desktop\mern my code\mernCourseLectureCode\src\socket\chatHandler.ts">
-        <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="2"/>
-        <line num="4" count="1" type="stmt"/>
-        <line num="7" count="2" type="stmt"/>
-        <line num="8" count="1" type="stmt"/>
-        <line num="9" count="1" type="stmt"/>
-        <line num="10" count="1" type="stmt"/>
-        <line num="11" count="1" type="stmt"/>
-        <line num="14" count="2" type="stmt"/>
-        <line num="15" count="2" type="stmt"/>
+        <metrics statements="17" coveredstatements="17" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="5"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="8" count="5" type="stmt"/>
+        <line num="9" count="5" type="stmt"/>
+        <line num="10" count="5" type="stmt"/>
+        <line num="11" count="5" type="stmt"/>
+        <line num="12" count="5" type="stmt"/>
+        <line num="17" count="5" type="stmt"/>
+        <line num="18" count="5" type="stmt"/>
+        <line num="20" count="2" type="stmt"/>
+        <line num="21" count="1" type="stmt"/>
+        <line num="22" count="1" type="stmt"/>
+        <line num="23" count="1" type="stmt"/>
+        <line num="24" count="1" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="29" count="2" type="stmt"/>
       </file>
       <file name="echoHandler.ts" path="C:\Users\mansh\Desktop\mern my code\mernCourseLectureCode\src\socket\echoHandler.ts">
         <metrics statements="8" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="2"/>
